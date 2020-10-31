@@ -77,6 +77,8 @@ and immutable state.
 * Recursion patterns
   - foldr
 
+[FunctionsConsumingLists](ListFunctions/FunctionsConsumingLists.hs)
+
 ## Memory Allocation
 
 
