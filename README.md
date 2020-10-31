@@ -6,6 +6,7 @@
 * [Functional vs Imperative Programming](#functional-vs-imperative-programming)
   - [Haskell vs C](#haskell-vs-c)
   - [Lists in Haskell](#lists-in-haskell)
+  - [Algebraic Data Types](#algebraic-data-types)
 * [Memory Allocation](#memory-allocation)
 * [Generators and Iterators](#generators-and-iterators)
 * [Logic Programming](#logic-programming)
@@ -66,19 +67,50 @@ and immutable state.
 
 ### Lists in Haskell
 * Syntactic sugar
-  - [1, 2, 3] == 1:(2:(3:[]))
+  - `[1, 2, 3] == 1:(2:(3:[]))`
 * Constructors
-  - :  "Cons"
-  - [] "Nil"
+  - **`:`**  "Cons"
+  - **`[]`** "Nil"
 * Functions consuming lists
-  - sum
-  - product
-  - length
+  - **`sum`**
+  - **`product`**
+  - **`length`**
 * Recursion patterns
-  - foldr
+  - **`foldr`**
+* Functions in Haskell that produce lists
+  - Right vs left folds
+    - **`foldl`** vs. **`foldr`**
 
-[FunctionsConsumingLists](ListFunctions/FunctionsConsumingLists.hs)  
-[FunctionsProducingLists](FunctionsProducingLists.hs)
+[FunctionsConsumingLists](FunctionsOnLists/FunctionsConsumingLists.hs)  
+[FunctionsProducingLists](FunctionsOnLists/FunctionsProducingLists.hs)
+
+### Algebraic Data Types
+* User defined data types in Haskell
+  - **`data`** keyword to define:
+    - types
+    - type constructors
+    - data constructors
+* Algebraic Data Types
+  - Co-Product (disjunction, enumeration)
+  - Product (conjunction, tuple, struct, record)
+  - Type recursion
+* Type classes
+  - _Type-classes_ in Haskell are similar to _interfaces_ in other languages (e.g. Java).
+  - **`class`** keyword to define a type-class and declare its methods
+    - Example type classes: **`Show, Eq, Ord, Num, Foldable`**
+  - **`instance`** keyword to declare a type an instance of a type-class
+    - Example:
+      - Make our own list data type foldable
+      - Call **`sum, product, length`** on our own lists
+* Trees in C and Haskell
+  - Use algebraic data types to model trees in C and Haskell
+* Examples:
+  - Binary trees
+  - Tree traversal
+  - Tree sort
+
+[AlgebraicDataTypes in Haskell](DataTypes/AlgebraicDataTypes.hs)  
+[AlgebraicDataTypes in C](DataTypes/AlgebraicDataTypes.c)
 
 ## Memory Allocation
 
