@@ -56,6 +56,9 @@ and immutable state.
   - Accumulating parameter 
   - Tail call optimization
 
+[BasicLanguageConstructs in C](BasicLanguageConstructs/BasicLanguageConstructs.c)  
+[BasicLanguageConstructs in Haskell]()
+
 ## Memory Allocation
 
 
