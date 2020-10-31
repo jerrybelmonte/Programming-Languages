@@ -4,6 +4,7 @@
 * [Introduction](#introduction)
 * [Objective](#objective)
 * [Functional vs Imperative Programming](#functional-vs-imperative-programming)
+  - [Haskell vs C](#haskell-vs-c)
 * [Memory Allocation](#memory-allocation)
 * [Generators and Iterators](#generators-and-iterators)
 * [Logic Programming](#logic-programming)
@@ -43,7 +44,17 @@ and immutable state.
   - Haskell: Modern pure functional language
 
 ### Haskell vs C
-
+* Basic Language Constructs in C & Haskell
+  - Variables
+    - Mutable/Immutable
+  - Functions
+    - Side effects
+  - Conditionals
+  - Loops
+  - Recursion
+* Loops vs. Recursion
+  - Accumulating parameter 
+  - Tail call optimization
 
 ## Memory Allocation
 
