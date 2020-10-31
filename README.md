@@ -5,6 +5,7 @@
 * [Objective](#objective)
 * [Functional vs Imperative Programming](#functional-vs-imperative-programming)
   - [Haskell vs C](#haskell-vs-c)
+  - [Lists in Haskell](#lists-in-haskell)
 * [Memory Allocation](#memory-allocation)
 * [Generators and Iterators](#generators-and-iterators)
 * [Logic Programming](#logic-programming)
@@ -42,6 +43,10 @@ and immutable state.
 * Programming languages comparison:
   - C: Classic imperative language
   - Haskell: Modern pure functional language
+* Functions in Haskell that produce lists
+* Right vs left folds
+  - foldl vs. foldr
+
 
 ### Haskell vs C
 * Basic Language Constructs in C & Haskell
@@ -58,6 +63,19 @@ and immutable state.
 
 [BasicLanguageConstructs in C](BasicLanguageConstructs/BasicLanguageConstructs.c)  
 [BasicLanguageConstructs in Haskell](BasicLanguageConstructs/BasicLanguageConstructs.hs)
+
+### Lists in Haskell
+* Syntactic sugar
+  - [1, 2, 3] == 1:(2:(3:[]))
+* Constructors
+  - :  "Cons"
+  - [] "Nil"
+* Functions consuming lists
+  - sum
+  - product
+  - length
+* Recursion patterns
+  - foldr
 
 ## Memory Allocation
 
