@@ -1,4 +1,15 @@
 # Principles of Programming Languages
+
+## Table of Contents
+* [Introduction](#introduction)
+* [Objective](#objective)
+* [Functional vs Imperative Programming](#functional-vs-imperative-programming)
+* [Memory Allocation](#memory-allocation)
+* [Generators and Iterators](#generators-and-iterators)
+* [Logic Programming](#logic-programming)
+* [Generic Programming](#generic-programming)
+
+## Introduction
 Fundamental topics in the design and implementation of programming languages. 
 Programing language paradigms. Comparison of languages in type systems, data 
 types, control flow, subroutines, concurrency, and exception handling.
@@ -14,3 +25,33 @@ programming assignments in each. Particular emphasis will be placed on the
 functional programming paradigm, and its concerns of higher-order functions 
 and immutable state.
 
+## Functional vs Imperative Programming
+* Loops vs. Recursion
+  - Accumulating parameter 
+  - Tail call optimization
+* Algebraic Datatypes
+  - Products
+  - Co-Products
+  - Type-Recursion
+* Turing Machine & λ-Calculus
+  - Theoretical foundations of imperative and functional programing paradigms
+* Evaluation strategies
+  - call-by-value
+  - call-by-need and in particular lazy evaluation
+* Programming languages comparison:
+  - C: Classic imperative language
+  - Haskell: Modern pure functional language
+
+### Haskell vs C
+
+
+## Memory Allocation
+
+
+## Generators and Iterators
+
+
+## Logic Programming
+
+
+## Generic Programming
