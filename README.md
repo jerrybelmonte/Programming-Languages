@@ -109,8 +109,8 @@ and immutable state.
   - Tree traversal
   - Tree sort
 
-[AlgebraicDataTypes in Haskell](DataTypes/AlgebraicDataTypes.hs)  
-[AlgebraicDataTypes in C](DataTypes/AlgebraicDataTypes.c)
+[AlgebraicDataTypes in Haskell](AlgebraicDataTypes/AlgebraicDataTypes.hs)  
+[AlgebraicDataTypes in C](AlgebraicDataTypes/AlgebraicDataTypes.c)
 
 ## Memory Allocation
 
