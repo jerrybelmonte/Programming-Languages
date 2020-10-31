@@ -57,7 +57,7 @@ and immutable state.
   - Tail call optimization
 
 [BasicLanguageConstructs in C](BasicLanguageConstructs/BasicLanguageConstructs.c)  
-[BasicLanguageConstructs in Haskell]()
+[BasicLanguageConstructs in Haskell](BasicLanguageConstructs/BasicLanguageConstructs.hs)
 
 ## Memory Allocation
 
