@@ -7,6 +7,8 @@
   - [Haskell vs C](#haskell-vs-c)
   - [Lists in Haskell](#lists-in-haskell)
   - [Algebraic Data Types](#algebraic-data-types)
+  - [Turing Machine and Lambda Calculus](#turing-machine-and-lambda-calculus)
+  - [Evaluation Strategies](#evaluation-strategies)
 * [Memory Allocation](#memory-allocation)
 * [Generators and Iterators](#generators-and-iterators)
 * [Logic Programming](#logic-programming)
@@ -111,6 +113,48 @@ and immutable state.
 
 [AlgebraicDataTypes in Haskell](AlgebraicDataTypes/AlgebraicDataTypes.hs)  
 [AlgebraicDataTypes in C](AlgebraicDataTypes/AlgebraicDataTypes.c)
+
+### Turing Machine and Lambda Calculus
+* Turing Machine
+  - Motivation
+  - Definition
+  - Example
+    - Running a Turing Program
+* λ-Calculus
+  - Motivation
+  - Definition
+    - Syntax
+      * λ-Terms
+        * Variables
+        * Application
+        * λ-Abstraction
+    - Operational Semantics
+      * α-conversion
+      * β-reduction
+  - Example
+    - Evaluating a λ-Term
+* Church–Turing Thesis
+  - Computability
+
+### Evaluation Strategies
+* Normal form and Weak Head Normal Form (WHNF)
+  - **Redex** := Left hand side of a reduction rule.
+  - A λ-expression with no redex is said to be in **normal form**.
+  - It is in **weak head normal form (WHNF)** if it has a λ-abstraction at the top level.
+  - **Computation** := Reduction of a λ-expression to normal form (or WHNF)
+* Evaluation strategies:
+  - Applicative order := right-most/inner-most redex first
+  - Call-by-value := like applicative order, but no reductions inside λ-abstractions
+  - Normal order := left-most/outer-most redex first
+  - Call-by-name := like normal order, but stop at WHNF (e.g. no reductions inside λ-abstractions, etc.)
+  - Call-by-need := call-by-name + **memoization**
+  - **Lazy evaluation** := An implementation of call-by-need with **thunks** used by Haskell. A **thunk** is an object in heap memory storing the state of the delayed evaluation of a function.
+* λ-calculus is **confluent**: Church–Rosser theorem (1936)
+  - i.e. (informally) the order of reduction steps doesn't matter, in particular any two reductions to normal form will reach equivalent normal forms.
+  - However, some evaluation strategies might now find it at all or take a long time to do so.
+* In general non-normalizing
+* Step-By-Step examples evaluation in Haskell
+  - Illustrate strategies, memoization, WHNF
 
 ## Memory Allocation
 
