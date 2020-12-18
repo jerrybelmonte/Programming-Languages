@@ -241,6 +241,51 @@ and immutable state.
 
 ### Haskell Folds, Strictness, & Stack Usage
 * Lazy evaluation on lists
+  - Right fold evaluation example
+  ```haskell
+  foldr _ z [] = z
+  foldr f z (x:xs) = x 'f' foldr f z xs
+
+  (++) []     ys = ys
+  (++) (x:xs) ys = x : (xs ++ ys)
+
+  head (x:xs) = x
+
+    head (foldr (++) [] [[], [1], ...])
+    head ([] ++ foldr (++) [] [[1], ...])
+    head (foldr (++) [] [[1], ...])
+    head ([1] ++ foldr (++) [] [...])
+    head (1 : ([] ++ foldr (++) [] [...]))
+    1
+  ```
+  - More examples of functions that process lists lazily
+  ```haskell
+  foldr _ z [] = z
+  foldr f z (x:xs) = x 'f' foldr f z xs
+
+  -- scanl works just like foldl, but outputs a list
+  -- of all intermediate values of the accumulating parameter
+  scanl _ z [] = [z]
+  scanl f z (x:xs) = z : scanl f (z 'f' x) xs
+
+  -- combine two lists element-wise with a binary operator
+  zipWith f (x:xs) (y:ys) = (x 'f' y) : (zipWith f xs ys)
+  zipWith _ _ _ = []
+  ```
+  - Examples of infinite lists
+  ```haskell
+  -- An infinite list of ones [1,1,1,...]
+  ones = 1 : ones
+  
+  -- The infinite list of all fibonacci numbers [f0,f1,...]
+  -- f0 = 0, fn+2 = 1 + sum([fk=0,...,fk=n])
+  fibs' = 0 : scanl (+) 1 fibs'
+
+  -- The infinite list of all prime numbers [2,3,5,7,11,13,...]
+  import Data.List.Ordered(minus)
+
+  primes = head <$> scanl minus [2..] [[p, p+p..] | p <- primes]
+  ```
 * Folds vs strictness
 
 ## Generators and Iterators
