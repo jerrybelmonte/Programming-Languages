@@ -187,17 +187,20 @@ and immutable state.
   - Static
     - fixed size during lifetime of a process
     - global variables
-  - Stack
-    - automatic
-    - local variables
-    - return addresses
-    - fixed and limited size
-  - Heap
-    - for big data
-    - for heavy items
-    - C: malloc/free
-    - C++: new/delete
-    - C#: new/GC
+  - Dynamic
+    - Stack
+      - automatic
+      - local variables
+      - return addresses
+      - fixed and limited size
+      - `pop`
+      - `push`
+    - Heap
+      - for big data
+      - for heavy items
+      - **C: malloc/free**
+      - **C++: new/delete**
+      - **C#: new/GC**
 
 ### Binding Time
 * Process Memory Layout
@@ -363,6 +366,10 @@ and immutable state.
   - **Defintion (Coroutine)**: A *coroutine* is a generalization of a *subroutine*: A *subroutine* has *one* entry point and multiple exit points. A **coroutine** has *multiple* entry and multiple exit points.
 
 ### C# and LINQ
+* Motivation: List comprehension & SQL
+* Iterators & Generators in LINQ
+* Functional construction of XML from LINQ query results
+* Comparison with Haskell lazy lists
 * C#/LINQ Motivation
   - Mathematic set builder notation or set comprehension  
     $\{2 \cdot a | a \in A \land a \lt 3\}$
@@ -389,7 +396,7 @@ and immutable state.
     // Query Syntax
     var col = from o in Orders
               where o.CustomerID == 84
-              select 0;
+              select o;
     
     // Fluent Syntax
     var col2 = Orders.Where(o => o.CustomerID == 84);
@@ -516,13 +523,65 @@ and immutable state.
     // Fluent Syntax
     var col3 = orders.Where(
                o => o.CustomerID == 84
-               ).Skip(2).Take(2);
+               ).OrderBy(o => o.Cost).
+               Skip(2).Take(2);
     ```
   - Element Operators (Single, Last, First, ElementAt, Defaults)
     ```csharp
     // Query Syntax
+    // throws exeption if no elements
+    var cust = (from c in customers
+                where c.CustomerID == 84
+                select c).Single();
 
     // Fluent Syntax
+    var cust1 = customers.Single(
+                c => c.CustomerID == 84);
+    
+    // Query Syntax
+    // returns null if no elements
+    var cust = (from c in customers
+                where c.CustomerID == 84
+                select c).SingleOrDefault();
+
+    // Fluent Syntax
+    var cust1 = customers.SingleOrDefault(
+                c => c.CustomerID == 84);
+
+    // Query Syntax
+    // returns a new customer instance if no elements
+    var cust = (from c in customers
+                where c.CustomerID == 85
+                select c).DefaultIfEmpty(
+                  new Customer()).Single();
+
+    // Fluent Syntax
+    var cust1 = customers.Where(
+                c => c.CustomerID == 85
+                ).DefaultIfEmpty(new Customer()).Single();
+
+    // Query Syntax
+    // First, Last, and ElementAt used in same way
+    var cust4 = (from o in orders
+                 where o.CustomerID == 84
+                 orderby o.Cost
+                 select o).Last();
+
+    // Fluent Syntax
+    var cust5 = orders.Where(
+                o => o.CustomerID == 84).
+                OrderBy(o => o.Cost).Last();
+
+    // Query Syntax
+    // returns 0 if no elements
+    var i = (from c in customers
+             where c.CustomerID == 85
+             select c.CustomerID).SingleOrDefault();
+
+    // Fluent Syntax
+    var j = customers.Where(
+            c => c.CustomerID == 85).
+            Select(o => o.CustomerID).SingleOrDefault();
     ```
   - Conversions
     - **`ToArray`**
