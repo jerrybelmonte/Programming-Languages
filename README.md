@@ -17,6 +17,9 @@
   - [Coroutines, Generators, and Iterators](#coroutines-generators-and-iterators)
   - [C# and LINQ](#c#-and-linq)
 * [Logic Programming](#logic-programming)
+  - [Introduction to Prolog](#introduction-to-prolog)
+  - [SLD Resolution](#sld-resolution)
+  - [Negation as Failure](#negation-as-failure)
 * [Generic Programming](#generic-programming)
 
 ## Introduction
@@ -623,6 +626,26 @@ and immutable state.
     - Cut
     - Negation as failure
 * Proof that Prolog is Turing complete
+
+### Introduction to Prolog
+* Prolog is a logic programming language based on 1st order predicate logic.
+* A good introduction to the language and an online REPL can be found at https://swish.swi-prolog.org
+
+### SLD Resolution
+* The denotation semantics of Prolog is **SLD resolution**:
+  - **S** - Selective
+  - **L** - Linear
+  - **D** - Definite clause
+* SLD resolution is a depth first recursive tree search algorithm.
+* The result of SLD resolution is either **failure** or a **linear proof** with **variable assignments**.
+
+### Negation as Failure
+* Lists in Prolog
+  - Quicksort in Prolog
+* Cut
+  - Pruning the search tree
+  - Green cut and red cut
+  - Negation as failure
 
 ## Generic Programming
 * Introduction to Generic programming
