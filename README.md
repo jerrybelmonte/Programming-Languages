@@ -10,6 +10,8 @@
   - [Turing Machine and Lambda Calculus](#turing-machine-and-lambda-calculus)
   - [Evaluation Strategies](#evaluation-strategies)
 * [Memory Allocation](#memory-allocation)
+  - [Dynamic Memory Allocation](#dynamic-memory-allocation)
+  - [Binding Time](#binding-time)
 * [Generators and Iterators](#generators-and-iterators)
 * [Logic Programming](#logic-programming)
 * [Generic Programming](#generic-programming)
@@ -49,7 +51,6 @@ and immutable state.
 * Functions in Haskell that produce lists
 * Right vs left folds
   - foldl vs. foldr
-
 
 ### Haskell vs C
 * Basic Language Constructs in C & Haskell
@@ -157,7 +158,90 @@ and immutable state.
   - Illustrate strategies, memoization, WHNF
 
 ## Memory Allocation
+* Memory allocation
+  - Static
+  - Dynamic
+    - Stack
+    - Heap
+* Binding time
+* Programming Languages comparison:
+  - C
+    - **malloc/free**
+  - C++
+    - **new/delete**
+    - STL Containers
+  - C#
+    - **new**/Garbage Collector
+  - Haskell
+    - *Thunks* (and other closures) are stored on the *heap* during lazy evaluation.
+* Influence of lazy (and strict) evaluation on stack (and heap) usage in Haskell.
 
+### Dynamic Memory Allocation
+* Memory allocation
+  - Static vs. dynamic
+    - **stack** vs. **heap**
+    - garbage collection
+  - Static
+    - fixed size during lifetime of a process
+    - global variables
+  - Stack
+    - automatic
+    - local variables
+    - return addresses
+    - fixed and limited size
+  - Heap
+    - for big data
+    - for heavy items
+    - C: malloc/free
+    - C++: new/delete
+    - C#: new/GC
+
+### Binding Time
+* Process Memory Layout
+  - **stack**
+    - stack frames
+      * return address
+      * arguments
+      * **automatic local variables**
+    - bound at *runtime* when *pushed on stack*
+  - **heap**
+    - **manually dynamically allocated memory**
+    - bound at *runtime* when allocated (with *malloc*)
+  - **bss** (uninitialized data) & **data** (initialized data)
+    - **static varibales**
+    - bound at *load time*
+  - **text**
+    - program code
+* Compile, link, and run time
+  1. C preprocessor
+     - Source code file
+       * hello.c
+       * hello.cpp
+  2. C Compiler
+     - Preprocessed code file
+       * hello.i
+  3. Assembler
+     - Assembly code file
+       * hello.s
+  4. Linker/link editor
+     - Object code file
+       * hello.o
+     - Relocation object code information
+     - Other objects file/modules
+     - Library files
+  5. Executable code
+     - hello
+     - hello.exe
+  6. Stored in secondary storage such as hard disk (hdd) as an executable image
+  7. Loader
+     - when running/execute the program (a process)
+     - Run time objects/modules/libraries (deferred linking)
+  8. Process Address Space
+  9. Primary memory e.g. RAM
+
+### Haskell Folds, Strictness, & Stack Usage
+* Lazy evaluation on lists
+* Folds vs strictness
 
 ## Generators and Iterators
 
