@@ -354,6 +354,8 @@ and immutable state.
     We'd like to combine these components in such a way, that we can _pipeline_ elements from one component to the next _one-by-one_:
     - **generate** ~> **square** ~> **sum** ~> 285
 * **`yield`** keyword in C# and Python
+  - [PipeliningWithPython](PipeliningWithGenerators/pipeline.py)
+  - [PipeliningWithCsharp](PipeliningWithGenerators/Pipeline.cs)
 * Iterators (Enumerators) & Generators
   - **Defintion (Iterator)**: An **iterator** (or *enumerator*) is an *object* used to traverse containers (e.g. arrays or lists). It *enumerates* the elements as a *sequence* (or*stream*).
   - **Defintion (Generator)**: A **generators** is *coroutine* that *yields* a *sequence* of values. Unlike *subroutines*, which `return` one value on exit, a **generator** can `yield` multiple values without terminating. **Generators** can  be used to implement *iterators*.
