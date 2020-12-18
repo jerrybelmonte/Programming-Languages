@@ -12,7 +12,10 @@
 * [Memory Allocation](#memory-allocation)
   - [Dynamic Memory Allocation](#dynamic-memory-allocation)
   - [Binding Time](#binding-time)
+  - [Haskell Folds, Strictness, and Stack Usage](#haskell-folds-strictness-and-stack-usage)
 * [Generators and Iterators](#generators-and-iterators)
+  - [Coroutines, Generators, and Iterators](#coroutines-generators-and-iterators)
+  - [C# and LINQ](#c#-and-linq)
 * [Logic Programming](#logic-programming)
 * [Generic Programming](#generic-programming)
 
@@ -125,13 +128,13 @@ and immutable state.
   - Motivation
   - Definition
     - Syntax
-      * λ-Terms
-        * Variables
-        * Application
-        * λ-Abstraction
+      - λ-Terms
+        - Variables
+        - Application
+        - λ-Abstraction
     - Operational Semantics
-      * α-conversion
-      * β-reduction
+      - α-conversion
+      - β-reduction
   - Example
     - Evaluating a λ-Term
 * Church–Turing Thesis
@@ -200,9 +203,9 @@ and immutable state.
 * Process Memory Layout
   - **stack**
     - stack frames
-      * return address
-      * arguments
-      * **automatic local variables**
+      - return address
+      - arguments
+      - **automatic local variables**
     - bound at *runtime* when *pushed on stack*
   - **heap**
     - **manually dynamically allocated memory**
@@ -215,17 +218,17 @@ and immutable state.
 * Compile, link, and run time
   1. C preprocessor
      - Source code file
-       * hello.c
-       * hello.cpp
+       - hello.c
+       - hello.cpp
   2. C Compiler
      - Preprocessed code file
-       * hello.i
+       - hello.i
   3. Assembler
      - Assembly code file
-       * hello.s
+       - hello.s
   4. Linker/link editor
      - Object code file
-       * hello.o
+       - hello.o
      - Relocation object code information
      - Other objects file/modules
      - Library files
@@ -239,7 +242,7 @@ and immutable state.
   8. Process Address Space
   9. Primary memory e.g. RAM
 
-### Haskell Folds, Strictness, & Stack Usage
+### Haskell Folds, Strictness, and Stack Usage
 * Lazy evaluation on lists
   - Right fold evaluation example
     ```haskell
@@ -292,7 +295,7 @@ and immutable state.
     foldr _ z [] = z
     foldr f z (x:xs) = x `f` foldr f z xs
 
-      foldr (+) 0 [1, 2, 3]
+    => foldr (+) 0 [1, 2, 3]
     => 1 + foldr (+) 0 [2, 3]
     => 1 + (2 + foldr (+) 0 [3])
     => 1 + (2 + (3 + foldr (+) 0 []))
@@ -329,9 +332,64 @@ and immutable state.
     ```
 
 ## Generators and Iterators
+* Generators/Enumerators
+* Iterables/Enumerables
+* Programing Language comparison:
+  - C#/LINQ & Python
+    - **yield** keyword
+  - Haskell
+    - Lazy lists
 
+### Coroutines, Generators, and Iterators
+* Motivation: C filters & Unix pipeline
+  - Generators & iterators by example
+
+    As a first example let's implement a modular algorithm that computes the expression: $$\sum_{k=0}^{9} k^{2} = 285$$
+  
+    The problem can be decomposed into three components that can be implented separately:
+    - **generate**  the generation of the sequence 0,1,...,9
+    - **square**    the calculation of the squares k |-> k^2
+    - **sum**       the computation of the $\sum$
+  
+    We'd like to combine these components in such a way, that we can _pipeline_ elements from one component to the next _one-by-one_:
+    - **generate** ~> **square** ~> **sum** ~> 285
+* **`yield`** keyword in C# and Python
+* Iterators (Enumerators) & Generators
+  - **Defintion (Iterator)**: An **iterator** (or *enumerator*) is an *object* used to traverse containers (e.g. arrays or lists). It *enumerates* the elements as a *sequence* (or*stream*).
+  - **Defintion (Generator)**: A **generators** is *coroutine* that *yields* a *sequence* of values. Unlike *subroutines*, which `return` one value on exit, a **generator** can `yield` multiple values without terminating. **Generators** can  be used to implement *iterators*.
+* Coroutines
+  - **Defintion (Coroutine)**: A *coroutine* is a generalization of a *subroutine*: A *subroutine* has *one* entry point and multiple exit points. A **coroutine** has *multiple* entry and multiple exit points.
+
+### C# and LINQ
 
 ## Logic Programming
-
+* Introduction to Logic Programming with Prolog
+  - Example Prolog programs
+  - First-order logic
+    - Horn clauses
+  - SLD resolution
+    - Cut
+    - Negation as failure
+* Proof that Prolog is Turing complete
 
 ## Generic Programming
+* Introduction to Generic programming
+* Definition (Generic programming)
+  - **Lift algorithms and data structures from concrete examples to their most general and abstract form.**
+  (Bjarne Stroustrup)
+* Programming languages comparison:
+  - C
+    - Macros
+    - **`void *`**
+    - (C11 Generic Switch)
+  - C++
+    - Templates
+  - C#
+    - Type parameters and Interfaces
+  - Python
+    - Duck-Typing
+  - Haskell
+    - Parametric polymorphism
+      - Type parameters
+    - Ad-hoc polymorphism
+      - Type classes
