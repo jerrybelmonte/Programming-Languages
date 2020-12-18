@@ -363,6 +363,197 @@ and immutable state.
   - **Defintion (Coroutine)**: A *coroutine* is a generalization of a *subroutine*: A *subroutine* has *one* entry point and multiple exit points. A **coroutine** has *multiple* entry and multiple exit points.
 
 ### C# and LINQ
+* C#/LINQ Motivation
+  - Mathematic set builder notation or set comprehension  
+    $\{2 \cdot a | a \in A \land a \lt 3\}$
+  - Haskell list comprehension
+    ```haskell
+    [2*a | a<-as, a>3]
+    ```
+  - SQL (Structured Query Language)
+    ```sql
+    SELECT 2 * a FROM as WHERE a > 3
+    ```
+  - LINQ(Language Integrated Query)
+    - LINQ query syntax
+      ```csharp 
+      from a in as where a > 3 select 2 * a
+      ```
+    - LINQ fluent syntax
+      ```csharp
+      as.Where(a => a > 3).Select(a => 2 * a)
+      ```
+* LINQ Cheat Sheet
+  - Filtering
+    ```csharp
+    // Query Syntax
+    var col = from o in Orders
+              where o.CustomerID == 84
+              select 0;
+    
+    // Fluent Syntax
+    var col2 = Orders.Where(o => o.CustomerID == 84);
+    ```
+  - Return Anonymous Type
+    ```csharp
+    // Query Syntax
+    var col = from o in orders
+              select new 
+              {
+                OrderID = o.OrderID,
+                Cost = o.Cost
+              };
+    
+    // Fluent Syntax
+    var col2 = orders.Select(0 => new 
+          {
+            OrderID = o.OrderID,
+            Cost = o.Cost
+          }
+        );
+    ```
+  - Ordering
+    ```csharp
+    // Query Syntax
+    var col = from o in orders
+              orderby o.Cost ascending
+              select o;
+
+    // Fluent Syntax
+    var col2 = orders.OrderBy(o => o.Cost);
+
+    // Query Syntax
+    var col3 = from o in orders
+               orderby o.Cost descending
+               select o;
+
+    // Fluent Syntax
+    var col4 = orders.OrderByDescending(o => o.Cost);
+
+    // Query Syntax
+    var col9 = from o in orders
+               orderby o.CustomerID, o.Cost descending
+               select o;
+    // returns same results as above
+    var col5 = from o in orders
+               orderby o.Cost descending
+               orderby o.CustomerID
+               select o;
+    // NOTE the ordering of the orderby's
+
+    // Fluent Syntax
+    var col6 = orders.OrderBy(o => o.CustomerID).
+              ThenByDescending(o => o.Cost);
+    ```
+  - Joining
+    ```csharp
+    // Query Syntax
+    var col = from c in customers
+              join o in orders on
+              c.CustomerID equals o.CustomerID
+              select new 
+              {
+                c.CustomerID,
+                c.Name,
+                o.OrderID,
+                o.Cost
+              };
+
+    // Fluent Syntax
+    var col2 = customers.Join(orders, 
+        c => c.CustomerID, o => o.CustomerID, 
+        (c, o) => new 
+          {
+            c.CustomerID,
+            c.Name,
+            o.OrderID,
+            o.Cost
+          } 
+        );
+    ```
+  - Grouping
+    ```csharp
+    // Query Syntax
+    var OrderCounts = from o in orders
+            group o by o.CustomerID into g
+            select new 
+            {
+              CustomerID = g.Key,
+              TotalOrders = g.Count()
+            };
+
+    // Fluent Syntax
+    var OrderCounts1 = orders.GroupBy(
+            o => o.CustomerID).
+            Select(g => new 
+            {
+              CustomerID = g.Key,
+              TotalOrders = g.Count()
+            });
+    // NOTE: The grouping's key has the same type as the grouping's value.
+    // E.g. in the above example the grouping's key is an int because o.CustomerID is an int.
+    ```
+  - Paging (using Skip & Take)
+    ```csharp
+    // Query Syntax
+    // select top 3
+    var col = (from o in orders 
+               where o.CustomerID == 84 
+               select o).Take(3);
+
+    // Fluent Syntax
+    var col2 = orders.Where(
+               o => o.CustomerID == 84
+               ).Take(3);
+    
+    // Query Syntax
+    // skip first 2 and return the 2 after
+    var col3 = (from o in orders 
+                where o.CustomerID == 84 
+                orderby o.Cost 
+                select o).Skip(2).Take(2);
+    
+    // Fluent Syntax
+    var col3 = orders.Where(
+               o => o.CustomerID == 84
+               ).Skip(2).Take(2);
+    ```
+  - Element Operators (Single, Last, First, ElementAt, Defaults)
+    ```csharp
+    // Query Syntax
+
+    // Fluent Syntax
+    ```
+  - Conversions
+    - **`ToArray`**
+      ```csharp
+      string[] names = (from c in customers 
+                        select c.Name).ToArray();
+      ```
+    - **`ToDictionary`**
+      ```csharp
+      Dictionary<int, Customer> col = customers.ToDictionary(c => c.CustomerID);
+
+      Dictionary<string, double> customerOrdersWithMaxCost = (from oc in
+              
+              (from o in orders
+              join n in customers on o.CustomerID equals c.CustomerID
+              select new {c.Name, o.Cost})
+              
+              group oc by oc.Name into g
+              select g).ToDictionary(g => g.key, g => g.Max(oc => oc.Cost));
+      ```
+    - **`ToList`**
+      ```csharp
+      List<Order> ordersOver10 = (from o in orders 
+              where o.Cost > 10
+              orderby o.Cost).ToList();
+      ```
+    - **`ToLookup`**
+      ```csharp
+      ILookup<int, string> customerLookup = 
+              customers.ToLookup(c => c.CustomerID, c => c.Name);
+      ```
 
 ## Logic Programming
 * Introduction to Logic Programming with Prolog
