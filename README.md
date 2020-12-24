@@ -740,8 +740,7 @@ and immutable state.
 ## Generic Programming
 * Introduction to Generic programming
 * Definition (Generic programming)
-  - **Lift algorithms and data structures from concrete examples to their most general and abstract form.**
-  (Bjarne Stroustrup)
+  - **Lift algorithms and data structures from concrete examples to their most general and abstract form.** (Bjarne Stroustrup)
 * Programming languages comparison:
   - C
     - Macros
@@ -758,3 +757,97 @@ and immutable state.
       - Type parameters
     - Ad-hoc polymorphism
       - Type classes
+- Algorithms can be written in terms of **type parameters** instead of specific types.
+- Such an implementation of an algorithm can then be instantiated for many specific types.
+- This is known as **generics** in C#, Java, Swift, etc. and as **polymorphism** in functional languages like Haskell.
+- max functions in Haskell & Python
+  ```haskell
+  -- Haskell
+  max :: Ord a => a -> a -> a
+  max a b = if a > b then a else b
+  ```
+  ```python
+  # Python
+  def max(a, b):
+    if a > b:
+      return a
+    else:
+      return b
+  ```
+- MAX macro in C
+  ```c
+  // The classic C MAX macro
+  #define MAX1(a, b) (((a) > (b)) ? (a) : (b))
+
+  // A better C MAX macro using local variables
+  #define MAX2(a, b) ({ \
+      typeof(a) _a = (a); \
+      typeof(b) _b = (b); \
+      (_a > _b) ? _a : _b; })
+  
+  // MAX macro with C11 _Generic selection
+  #define MAX3(a, b) _Generic((a), \
+      int:    max_int, \
+      double: max_double, \
+      char *: max_string)((a), (b))
+  
+  int max_int(int a, int b) { return (a > b) ? a : b; }
+
+  int max_double(double a, double b) { return (a > b) ? a : b; }
+
+  const char *max_string(const char *s, const char *t) {
+    return (strcmp(s, t) > 0) ? s : t;
+  }
+  ```
+- MAX function with template in C++ and type parameter in C#
+  ```c++
+  // max function template in C++
+  template<typename T>
+  const T& max(const T& a, const T& b) {
+    return (a > b) ? a : b;
+  }
+  ```
+  ```csharp
+  // generic Max function in C#
+  public static T Max<T>(T x, T y) where T : IComparable<T>
+  {
+    return (x.CompareTo(y) > 0) ? x : y;
+  }
+  ```
+- Type parameters in Haskell and C#
+  |                 | Haskell       | C#                            |
+  | :-------------- | :-----------: | :---------------------------: |
+  | Type variable   | `a`           | `T`                           |
+  | List            | `[a]`         | `List<T>`                     |
+  | Optional value  | `Maybe a`     | `T?`                          |
+  | Type constraint | `Ord a =>...` | `...where T : IComparable<T>` |
+- Parametric vs ad-hoc polymorphism in Haskell
+  - **Definition (Parametric polymorphism)**: One implementation works for *all* types.  
+  The function `map` e.g. works for lists of elements of any type:
+    ```haskell
+    map :: (a -> b) -> [a] -> [b]
+    map f [] = []
+    map f (x:xs) = f x : map f xs
+    ```
+  - **Definition (Ad-hoc polymorphism)**: One implementation works for all types that are instances of some **type class**.  
+  E.g. there's only one implementation of `max` for all types that are instances of `Ord`. However, there's a specific implementation of `>` for each instance of `Ord`.
+    ```haskell
+    max :: Ord a => a -> a -> a
+    max a b = if a > b then a else b
+    ```
+- Language comparison (i)
+  | Language | Paradigm | Execution | Syntax | Type-System | Language |
+  | :------- | :------: | :-------: | :----: | :---------: | :------: |
+  | C | Imperative **not OO** | Compiled to native code | C-like | Static | C |
+  | C++ | Imperative OO | Compiled to native code | C-like | Static | C++ |
+  | C# | Imperative OO | Compiled to CIL | C-like | Static | C# |
+  | Python | Imperative OO | Interpreted | Terse - Layout | Dynamic "Duck typing" | Python |
+  | Haskell | Purely functional | Compiled or interpreted | Very terse - Layout - Currying | Static with type inference | Haskell |
+- Language comparison (ii)
+  | Language | Generics | Memory Management | Evaluation Strategy | Language |
+  | :------- | :------: | :---------------: | :-----------------: | :------: |
+  | C | Very limited Macros / `void *` | Manual `malloc` / `free` | Strict | C |
+  | C++ | Templates | Manual `new`/`delete` RAII (STL Containers) | Strict | C++ |
+  | C# | Type parameters Interfaces | Allocation: `new` Deallocation: GC | Strict | C# |
+  | Python | No such concept | GC | Strict | Python |
+  | Haskell | Polymorphism Parametric and ad-hoc | GC | Lazy | Haskell |
