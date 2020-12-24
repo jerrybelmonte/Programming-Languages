@@ -19,7 +19,7 @@
 * [Logic Programming](#logic-programming)
   - [Introduction to Prolog](#introduction-to-prolog)
   - [SLD Resolution](#sld-resolution)
-  - [Negation as Failure](#negation-as-failure)
+  - [Negation As Failure](#negation-as-failure)
 * [Generic Programming](#generic-programming)
 
 ## Introduction
@@ -627,9 +627,65 @@ and immutable state.
     - Negation as failure
 * Proof that Prolog is Turing complete
 
-### Introduction to Prolog
+### Introduction To Prolog
 * Prolog is a logic programming language based on 1st order predicate logic.
 * A good introduction to the language and an online REPL can be found at https://swish.swi-prolog.org
+* Prolog
+  - Prolog is a **logic** programming langauge based on 1st order predicate logic.
+  - The name **Prolog** is short for *"**Pro**graming in **log**ic"*
+  - **Syntax**: A pure Prolog program consists of **facts** and **rules**:
+    - **Facts** are terms like `parent(bob, ada).` composed of
+      - **`atoms`** like `bob/0`, and
+      - **`functors`** like `parent/2` which is a functor of arity 2, meaning it has 2 arguments.
+    - **Rules** are terms like `brother(X, Y) :- male(X), sibling(X, Y).`
+      - where the terms may contain **`variables`** like X or Y, combined with
+      - logical implication `:-` **"if"**, and
+      - logical conjunction `,` **"and"**.
+    - That's it. Everything elses is syntactic sugar like `[1, 2, 3]` for terms that represent lists, etc.
+    - ...actually there's one more thing called the **cut** `!` that we'll learn a bit later...
+* Syntax & Semantics
+  - **Syntax**:  
+  Which character sequences are valid programs?  
+  *"Does it compile?"*
+  - **Semantics**: 
+    - **Denotational Semantics**:  
+    What does a program mean?  
+    *"What is it modeling?"*
+    - **Operational Semantics**:  
+    What does a program do?  
+    *"Which instructions does it execute when it runs?"*
+  - **Soundness**: A denoational semantics is **sound** wrt. an operational semantics, if the operational evaludation of expressions preserves their denotational meaning.
+* Denotational Semantics of Prolog
+  - A prolog rule, e.g.  
+  `aunt(X, Y) :- female(X), parent(Z, Y), sibling(X, Z).`  
+  is just a different syntax for a *1st order predicate logic* formula:  
+  for every X.for every Y.aunt(X, Y) <- female(X) AND there exists Z.parent(Z, Y) AND sibling(X, Z)  
+  Using the definition of the implication A <- B is defined A OR NOT B, and De Morgan's laws NOT(A AND B) is defined as NOT A OR NOT B and NOT there exists X.p(X) is defined as for every X.NOT p(X) we can write this as  
+  for every X.for every Y.for every Z.aunt(X, Y) OR NOT female(X) OR NOT parent(Z, Y) OR NOT sibling(X, Z).
+  - A formula in the latter form, i.e. a disjuntion of literals with exactly one positive literal, is called a **definite clause**.
+  - *A prolog program is a set of **definite clauses**.*
+* Family Tree example
+  ```prolog
+  male(tom).
+  male(bob).
+  male(jim).
+  male(pat).
+  female(ada).
+  female(michelle).
+
+  parent(tom, bob).
+  parent(bob, pat).
+  parent(bob, ada).
+  parent(pat, jim).
+  parent(ada, michelle).
+
+  sibling(X, Y) :- parent(Z, X), parent(Z, Y), X \= Y.
+  brother(X, Y) :- male(X), sibling(X, Y).
+  aunt(X, Y)    :- female(X), parent(Z, Y), sibling(X, Z).
+
+  ancestor(X, Y) :- parent(X, Y).
+  ancestor(X, Y) :- parent(Z, Y), ancestor(X, Z).
+  ```
 
 ### SLD Resolution
 * The denotation semantics of Prolog is **SLD resolution**:
@@ -638,14 +694,48 @@ and immutable state.
   - **D** - Definite clause
 * SLD resolution is a depth first recursive tree search algorithm.
 * The result of SLD resolution is either **failure** or a **linear proof** with **variable assignments**.
+- [Haskell type inference](PrologExamples/Haskell_type_inference.pl)
+* Operational Semantics of Prolog
+  - Prolog's **SLD-resolution** algorithm is a *depth first tree search* that works as follows:
+    - Select the first literal of the goal clause
+      - Find the head of the first rule in the program that can be unified with it, i.e. is equal to it where
+        - functors and atoms match exactly and
+        - variables are bound to matching values.
+      - Substitute the selected literal with the body of the rule.
+    - Repeat the above until either
+      - the goal clause is empty:
+        - then *report success* and output the variable assignments, or
+      - no matching head can be found:
+        - then backtrack and try the next matching rule.
+    - *Report failure.*
+  - SLD-tree example
+    ```prolog
+    p(X,Y) :- q(X,Z), r(Z,Y).
+    p(X,X) :- s(X).
+    q(X,b).
+    q(b,a).
+    q(X,a) :- r(a,X).
+    r(b,a).
+    s(X) :- t(X,a).
+    s(X) :- t(X,b).
+    s(X) :- t(X,X).
+    t(a,b).
+    t(b,a).
+    ?- p(X, X).
+    ```
 
-### Negation as Failure
+### Negation As Failure
 * Lists in Prolog
   - Quicksort in Prolog
 * Cut
   - Pruning the search tree
   - Green cut and red cut
   - Negation as failure
+- [Quicksort - Selfmade Lists](PrologExamples/Quicksort_Selfmade_Lists.pl)
+- [Quicksort - Prolog List Syntax](PrologExamples/Quicksort_Prolog_List_Syntax.pl)
+- [Quicksort - Prolog List Syntax with Cut](PrologExamples/Quicksort_Prolog_List_Syntax_with_Cut.pl)
+- [Negation](PrologExamples/Negation.pl)
+- [It's a tie](PrologExamples/Its_a_tie.pl)
 
 ## Generic Programming
 * Introduction to Generic programming
